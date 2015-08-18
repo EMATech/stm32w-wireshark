@@ -6,6 +6,7 @@
  *
  *
  * Copyright (c) 2012, Joe Desbonnet, jdesbonnet@gmail.com
+ * Copyright (c) 2015, Raphaël Doursenaud, rdoursenaud@free.fr
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -31,15 +32,6 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- *
- * Version 0.1 (11 April 2012)
- * 
- * To compile:
- * gcc -o stm32w-wireshark stm32w-wireshark.c -lrt
- *
- * For more information see this blog post:
- * http://jdesbonnet.blogspot.com/2012/04/stm32w-rfckit-as-802154-network.html
  */
 
 #include <stdio.h>
@@ -56,7 +48,7 @@
 
 
 #define APP_NAME "stm32w-wireshark"
-#define VERSION "0.1, 11 April 2012"
+#define VERSION "0.2a"
 
 #define TRUE 1
 #define FALSE 0
@@ -172,26 +164,29 @@ void version () {
  */
 void usage () {
 	fprintf (stderr,"\n");
-	fprintf (stderr,"Usage: stm32w-wireskark [-q] [-v] [-h] [-d level] [-f format] device channel\n");
+	fprintf (stderr,"Usage: stm32w-wireshark [-q] [-v] [-h] [-d level] [-f format] device channel\n");
 
 	//fprintf (stderr,"  -c channel \t Set channel. Allowed values: 11 to 26.\n");
 	fprintf (stderr,"\n");
 	fprintf (stderr,"Options:\n");
 	fprintf (stderr,"  -d level \t Set debug level, 0 = min (default), 9 = max verbosity\n");
 	fprintf (stderr,"  -f format \t Output format: pcap (default) | hex \n");
-	fprintf (stderr,"  -q \t Quiet mode: suppress warning messages.\n");
-	fprintf (stderr,"  -v \t Print version to stderr and exit\n");
-	fprintf (stderr,"  -h \t Display this message to stderr and exit\n");
+	fprintf (stderr,"  -q \t\t Quiet mode: suppress warning messages.\n");
+	fprintf (stderr,"  -v \t\t Print version to stderr and exit\n");
+	fprintf (stderr,"  -h \t\t Display this message to stderr and exit\n");
 	fprintf (stderr,"\n");
 	fprintf (stderr,"Parameters:\n");
 	fprintf (stderr,"  device:  the unix device file corresponding to the dongle device (often /dev/ttyACM0)\n");
 	fprintf (stderr,"  channel: the 802.15.4 channel. Allowed values from 11 to 26.\n");
 	fprintf (stderr,"\n");
-	fprintf (stderr,"See this blog post for details: \n    http://jdesbonnet.blogspot.com/2012/04/stm32w-rfckit-as-802154-network.html\n");
+	fprintf (stderr,"See this blog post for details: \n");
+	fprintf (stderr,"  http://jdesbonnet.blogspot.com/2012/04/stm32w-rfckit-as-802154-network.html\n");
 	fprintf (stderr,"Version: ");
 	version();
-	fprintf (stderr,"Author: Joe Desbonnet, jdesbonnet@gmail.com.\n");
-	fprintf (stderr,"Copyright 2012. Source released under BSD licence.\n");
+	fprintf (stderr,"Authors:\n");
+	fprintf (stderr,"  Joe Desbonnet, jdesbonnet@gmail.com.\n");
+	fprintf (stderr,"  Raphaël Doursenaud, rdoursenaud@free.fr\n");
+	fprintf (stderr,"Copyright 2012-2015. Source released under BSD licence.\n");
 	fprintf (stderr,"\n");
 }
 
@@ -381,7 +376,9 @@ int main( int argc, char **argv) {
 
 	// Two parameters are mandatory
 	if (argc - optind < 2) {
-		fprintf (stderr,"Error: missing command arguments. Use -h for help.");
+		fprintf (stderr,"Error: missing command arguments.\n");
+		version();
+		usage();
 		exit(EXIT_FAILURE);
 	}
 

@@ -40,3 +40,6 @@ cmake_install.cmake
 install_manifest.txt
 
 # Created by .ignore support plugin (hsz.mobi)
+stm32w-wireshark
+
+build
